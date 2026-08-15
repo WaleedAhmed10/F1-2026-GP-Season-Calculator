@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { api } from './services/api';
-import { useToast } from './hooks/useToast';
+import { useToast, ToastContainer } from './hooks/useToast';
 import Header from './components/Header';
 import AuthModal from './components/AuthModal';
 import PredictionPanel from './components/PredictionPanel';
@@ -28,7 +28,7 @@ export default function App() {
   const [authUsername, setAuthUsername] = useState('');
   const [authPassword, setAuthPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { toast, showToast } = useToast();
+  const { toasts, showToast, removeToast } = useToast();
 
   const loadPublicData = useCallback(async () => {
     try {
@@ -211,6 +211,8 @@ export default function App() {
         <div className={`toast-message ${toast.type}`}>
           <i className={`fas ${toast.type === 'error' ? 'fa-exclamation-triangle' : 'fa-circle'}`} />
           {toast.message}
+        </div>
+        <div className="footer-buttons">
         </div>
         <div className="footer-buttons">
           <button className="btn-secondary" onClick={handleReset}><i className="fas fa-undo-alt" /> Reset</button>
