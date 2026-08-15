@@ -1,0 +1,52 @@
+const SEED_DRIVERS = [
+  { id: 'ver', name: 'Max Verstappen', code: 'VER', flag: '🇳🇱', team: 'Red Bull Racing' },
+  { id: 'had', name: 'Isack Hadjar', code: 'HAD', flag: '🇫🇷', team: 'Red Bull Racing' },
+  { id: 'lec', name: 'Charles Leclerc', code: 'LEC', flag: '🇲🇨', team: 'Ferrari' },
+  { id: 'ham', name: 'Lewis Hamilton', code: 'HAM', flag: '🇬🇧', team: 'Ferrari' },
+  { id: 'nor', name: 'Lando Norris', code: 'NOR', flag: '🇬🇧', team: 'McLaren' },
+  { id: 'pia', name: 'Oscar Piastri', code: 'PIA', flag: '🇦🇺', team: 'McLaren' },
+  { id: 'rus', name: 'George Russell', code: 'RUS', flag: '🇬🇧', team: 'Mercedes' },
+  { id: 'kim', name: 'Kimi Antonelli', code: 'ANT', flag: '🇮🇹', team: 'Mercedes' },
+  { id: 'alo', name: 'Fernando Alonso', code: 'ALO', flag: '🇪🇸', team: 'Aston Martin' },
+  { id: 'str', name: 'Lance Stroll', code: 'STR', flag: '🇨🇦', team: 'Aston Martin' },
+  { id: 'gas', name: 'Pierre Gasly', code: 'GAS', flag: '🇫🇷', team: 'Alpine' },
+  { id: 'pin', name: 'Franco Colapinto', code: 'COL', flag: '🇦🇷', team: 'Alpine' },
+  { id: 'tsu', name: 'Yuki Tsunoda', code: 'TSU', flag: '🇯🇵', team: 'RB' },
+  { id: 'lin', name: 'Arvid Lindblad', code: 'LIN', flag: '🇸🇪', team: 'RB' },
+  { id: 'hul', name: 'Nico Hülkenberg', code: 'HUL', flag: '🇩🇪', team: 'Audi' },
+  { id: 'gab', name: 'Gabriel Bortoleto', code: 'BOR', flag: '🇧🇷', team: 'Audi' },
+  { id: 'oli', name: 'Ollie Bearman', code: 'BEA', flag: '🇬🇧', team: 'Haas' },
+  { id: 'oco', name: 'Esteban Ocon', code: 'OCO', flag: '🇫🇷', team: 'Haas' },
+  { id: 'sai', name: 'Carlos Sainz', code: 'SAI', flag: '🇪🇸', team: 'Williams' },
+  { id: 'alb', name: 'Alexander Albon', code: 'ALB', flag: '🇹🇭', team: 'Williams' },
+  { id: 'bot', name: 'Valtteri Bottas', code: 'BOT', flag: '🇫🇮', team: 'Cadillac' },
+  { id: 'per', name: 'Sergio Pérez', code: 'PER', flag: '🇲🇽', team: 'Cadillac' }
+];
+
+const SEED_RACES = [
+  { id: 0, name: 'Australian GP', flag: '🇦🇺', date: '2026-03-08', circuit: 'Albert Park' },
+  { id: 1, name: 'Chinese GP', flag: '🇨🇳', date: '2026-03-22', circuit: 'Shanghai' },
+  { id: 2, name: 'Japanese GP', flag: '🇯🇵', date: '2026-04-05', circuit: 'Suzuka' },
+  { id: 3, name: 'Bahrain GP', flag: '🇧🇭', date: '2026-04-19', circuit: 'Sakhir' },
+  { id: 4, name: 'Saudi Arabian GP', flag: '🇸🇦', date: '2026-05-03', circuit: 'Jeddah' },
+  { id: 5, name: 'Miami GP', flag: '🇺🇸', date: '2026-05-17', circuit: 'Miami' },
+  { id: 6, name: 'Monaco GP', flag: '🇲🇨', date: '2026-05-31', circuit: 'Monte Carlo' },
+  { id: 7, name: 'Spanish GP', flag: '🇪🇸', date: '2026-06-14', circuit: 'Barcelona' },
+  { id: 8, name: 'Canadian GP', flag: '🇨🇦', date: '2026-06-28', circuit: 'Montreal' },
+  { id: 9, name: 'Austrian GP', flag: '🇦🇹', date: '2026-07-12', circuit: 'Spielberg' },
+  { id: 10, name: 'British GP', flag: '🇬🇧', date: '2026-07-26', circuit: 'Silverstone' },
+  { id: 11, name: 'Belgian GP', flag: '🇧🇪', date: '2026-08-09', circuit: 'Spa' },
+  { id: 12, name: 'Hungarian GP', flag: '🇭🇺', date: '2026-08-23', circuit: 'Hungaroring' },
+  { id: 13, name: 'Dutch GP', flag: '🇳🇱', date: '2026-09-06', circuit: 'Zandvoort' },
+  { id: 14, name: 'Italian GP', flag: '🇮🇹', date: '2026-09-13', circuit: 'Monza' },
+  { id: 15, name: 'Azerbaijan GP', flag: '🇦🇿', date: '2026-09-27', circuit: 'Baku' },
+  { id: 16, name: 'Singapore GP', flag: '🇸🇬', date: '2026-10-11', circuit: 'Marina Bay' },
+  { id: 17, name: 'United States GP', flag: '🇺🇸', date: '2026-10-25', circuit: 'COTA' },
+  { id: 18, name: 'Mexican GP', flag: '🇲🇽', date: '2026-11-01', circuit: 'Mexico City' },
+  { id: 19, name: 'Brazilian GP', flag: '🇧🇷', date: '2026-11-15', circuit: 'Interlagos' },
+  { id: 20, name: 'Las Vegas GP', flag: '🇺🇸', date: '2026-11-22', circuit: 'Las Vegas' },
+  { id: 21, name: 'Qatar GP', flag: '🇶🇦', date: '2026-12-06', circuit: 'Lusail' },
+  { id: 22, name: 'Abu Dhabi GP', flag: '🇦🇪', date: '2026-12-13', circuit: 'Yas Marina' }
+];
+
+module.exports = { SEED_DRIVERS, SEED_RACES };
