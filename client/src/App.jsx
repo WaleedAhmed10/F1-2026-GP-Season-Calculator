@@ -38,7 +38,7 @@ export default function App() {
         api.getLeaderboard(),
         api.getDriverStandings(),
         api.getConstructorStandings(),
-        api.getSimulation()
+        api.getChampionshipSimulation()
       ]);
       setDrivers(driversData);
       setRaces(racesData);
@@ -57,7 +57,7 @@ export default function App() {
   const loadPredictions = useCallback(async () => {
     if (!user) return;
     try {
-      const data = await api.getPredictions();
+      const data = await api.getUserPredictions();
       setPredictions(data);
     } catch (err) {
       if (err.message !== 'Authentication required') {
@@ -208,17 +208,13 @@ export default function App() {
       {activeTab === 'simulation' && <SimulationPanel simulation={simulation} />}
 
       <div className="footer-actions">
-        <div className={`toast-message ${toast.type}`}>
-          <i className={`fas ${toast.type === 'error' ? 'fa-exclamation-triangle' : 'fa-circle'}`} />
-          {toast.message}
-        </div>
-        <div className="footer-buttons">
-        </div>
         <div className="footer-buttons">
           <button className="btn-secondary" onClick={handleReset}><i className="fas fa-undo-alt" /> Reset</button>
           <button className="btn-secondary" onClick={handleExport}><i className="fas fa-download" /> Export</button>
         </div>
       </div>
+
+      <ToastContainer toasts={toasts} removeToast={removeToast} />
 
       <AuthModal
         isOpen={isAuthModalOpen}
