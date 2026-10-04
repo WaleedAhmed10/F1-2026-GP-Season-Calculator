@@ -18,9 +18,12 @@ export default function PredictionPanel({
       </div>
       <div className="race-selector">
         <label><i className="far fa-calendar-alt" /> Select Grand Prix</label>
-        <select value={selectedRace} onChange={(e) => onRaceChange(parseInt(e.target.value, 10))}>
+        <select
+          value={selectedRace ?? ''}
+          onChange={(e) => onRaceChange(Number(e.target.value))}
+        >
           {races.map((r) => (
-            <option key={r.id} value={r.id} disabled={r.status !== 'upcoming'}>
+            <option key={r.id} value={r.id}>
               {r.flag} {r.name} {r.status === 'completed' ? '(done)' : r.status === 'locked' ? '(locked)' : ''}
             </option>
           ))}
@@ -60,7 +63,7 @@ export default function PredictionPanel({
           </div>
         ))}
       </div>
-      <button className="btn-primary" onClick={onSubmit} disabled={loading || isLocked}>
+      <button className="btn-primary" onClick={onSubmit} disabled={loading || !currentRace || isLocked}>
         {loading ? <span className="loading-spinner" /> : <><i className="fas fa-check-circle" /> Submit prediction</>}
       </button>
       <div className="prediction-rules">

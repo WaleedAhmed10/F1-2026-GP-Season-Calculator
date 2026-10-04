@@ -21,7 +21,7 @@ export default function App() {
   const [constructorStandings, setConstructorStandings] = useState([]);
   const [simulation, setSimulation] = useState(null);
   const [selectedDriver, setSelectedDriver] = useState('');
-  const [selectedRace, setSelectedRace] = useState(0);
+  const [selectedRace, setSelectedRace] = useState(null);
   const [user, setUser] = useState(null);
   const [activeTab, setActiveTab] = useState('predict');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
@@ -47,14 +47,18 @@ export default function App() {
       setDriverStandings(dsData);
       setConstructorStandings(csData);
       setSimulation(simData);
-      if (driversData.length && !selectedDriver) setSelectedDriver(driversData[0].id);
       const firstOpen = racesData.find((r) => r.status === 'upcoming');
-      if (firstOpen) setSelectedRace(firstOpen.id);
+      setSelectedDriver((current) => current || driversData[0]?.id || '');
+      setSelectedRace((current) => (
+        racesData.some((race) => race.id === current)
+          ? current
+          : firstOpen?.id ?? racesData[0]?.id ?? null
+      ));
     } catch {
       setDrivers(FALLBACK_DRIVERS);
       showToast('Failed to load data', 'error');
     }
-  }, [selectedDriver, showToast]);
+  }, [showToast]);
 
   const loadPredictions = useCallback(async () => {
     if (!user) return;
