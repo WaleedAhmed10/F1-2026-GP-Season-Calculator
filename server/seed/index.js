@@ -3,17 +3,21 @@ const Race = require('../models/Race');
 const { SEED_DRIVERS, SEED_RACES } = require('./data');
 
 async function seedDatabase() {
-  const driverCount = await Driver.countDocuments();
-  if (driverCount === 0) {
-    await Driver.insertMany(SEED_DRIVERS);
-    console.log('Drivers seeded');
-  }
+  const ids = SEED_DRIVERS.map((d) => d.id);
+  await Promise.all(
+    SEED_DRIVERS.map((driver) =>
+      Driver.updateOne({ id: driver.id }, { $set: driver }, { upsert: true })
+    )
+  );
+  await Driver.deleteMany({ id: { $nin: ids } });
+  console.log('Drivers synced');
 
-  const raceCount = await Race.countDocuments();
-  if (raceCount === 0) {
-    await Race.insertMany(SEED_RACES);
-    console.log('Races seeded');
-  }
+  await Promise.all(
+    SEED_RACES.map((race) =>
+      Race.updateOne({ id: race.id }, { $set: race }, { upsert: true })
+    )
+  );
+  console.log('Races synced');
 }
 
 module.exports = seedDatabase;

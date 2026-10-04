@@ -1,0 +1,23 @@
+id,name,code,number,flag,nationality,team,teamColor,titles,rookie,seasonPosition,seasonPoints
+nor,Lando Norris,NOR,1,🇬🇧,British,McLaren,#FF8000,1,false,5,188
+pia,Oscar Piastri,PIA,81,🇦🇺,Australian,McLaren,#FF8000,0,false,7,128
+lec,Charles Leclerc,LEC,16,🇲🇨,Monegasque,Ferrari,#E8002D,0,false,4,191
+ham,Lewis Hamilton,HAM,44,🇬🇧,British,Ferrari,#E8002D,7,false,3,214
+ver,Max Verstappen,VER,3,🇳🇱,Dutch,Red Bull Racing,#3671C6,4,false,6,188
+had,Isack Hadjar,HAD,6,🇫🇷,French,Red Bull Racing,#3671C6,0,false,8,96
+rus,George Russell,RUS,63,🇬🇧,British,Mercedes,#27F4D2,0,false,2,236
+kim,Kimi Antonelli,ANT,12,🇮🇹,Italian,Mercedes,#27F4D2,0,false,1,320
+alo,Fernando Alonso,ALO,14,🇪🇸,Spanish,Aston Martin,#229971,2,false,17,7
+str,Lance Stroll,STR,18,🇨🇦,Canadian,Aston Martin,#229971,0,false,21,0
+gas,Pierre Gasly,GAS,10,🇫🇷,French,Alpine,#FF87BC,0,false,10,41
+pin,Franco Colapinto,COL,43,🇦🇷,Argentine,Alpine,#FF87BC,0,false,12,27
+oli,Oliver Bearman,BEA,87,🇬🇧,British,Haas,#B6BABD,0,false,13,20
+oco,Esteban Ocon,OCO,31,🇫🇷,French,Haas,#B6BABD,0,false,16,7
+law,Liam Lawson,LAW,30,🇳🇿,New Zealander,Racing Bulls,#6692FF,0,false,9,65
+lin,Arvid Lindblad,LIN,41,🇬🇧,British,Racing Bulls,#6692FF,0,true,11,38
+alb,Alex Albon,ALB,23,🇹🇭,Thai,Williams,#64C4FF,0,false,19,5
+sai,Carlos Sainz,SAI,55,🇪🇸,Spanish,Williams,#64C4FF,0,false,18,7
+hul,Nico Hülkenberg,HUL,27,🇩🇪,German,Audi,#F50537,0,false,15,7
+gab,Gabriel Bortoleto,BOR,5,🇧🇷,Brazilian,Audi,#F50537,0,false,14,10
+per,Sergio Pérez,PER,11,🇲🇽,Mexican,Cadillac,#C6A355,0,false,23,0
+bot,Valtteri Bottas,BOT,77,🇫🇮,Finnish,Cadillac,#C6A355,0,false,22,0

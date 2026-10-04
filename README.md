@@ -12,6 +12,14 @@ A full-stack web app for predicting Formula 1 2026 race outcomes and championshi
 - Player leaderboard
 - Driver stats: win rate, points average, form trend, consistency, head-to-head
 
+## Datasets
+
+Driver and race data are maintained in `datasets/drivers.csv` and `datasets/races.csv`.
+The backend imports these files when seeding MongoDB, and the frontend reads the driver
+CSV for its offline fallback. Driver standings are a snapshot from 2026-10-04. Restart the
+backend after editing either CSV and rebuild the frontend to refresh its bundled fallback.
+Keep the CSV headers unchanged.
+
 ## Tech Stack
 
 **Frontend:** React, Vite

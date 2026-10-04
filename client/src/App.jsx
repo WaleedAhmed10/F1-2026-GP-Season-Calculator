@@ -8,6 +8,7 @@ import LeaderboardPanel from './components/LeaderboardPanel';
 import StandingsPanel from './components/StandingsPanel';
 import SimulationPanel from './components/SimulationPanel';
 import MyPredictions from './components/MyPredictions';
+import { FALLBACK_DRIVERS } from './data/drivers';
 
 const TABS = ['predict', 'standings', 'simulation'];
 
@@ -40,7 +41,7 @@ export default function App() {
         api.getConstructorStandings(),
         api.getChampionshipSimulation()
       ]);
-      setDrivers(driversData);
+      setDrivers(driversData.length ? driversData : FALLBACK_DRIVERS);
       setRaces(racesData);
       setLeaderboard(lbData);
       setDriverStandings(dsData);
@@ -50,6 +51,7 @@ export default function App() {
       const firstOpen = racesData.find((r) => r.status === 'upcoming');
       if (firstOpen) setSelectedRace(firstOpen.id);
     } catch {
+      setDrivers(FALLBACK_DRIVERS);
       showToast('Failed to load data', 'error');
     }
   }, [selectedDriver, showToast]);

@@ -1,52 +1,86 @@
-const SEED_DRIVERS = [
-  { id: 'ver', name: 'Max Verstappen', code: 'VER', flag: '🇳🇱', team: 'Red Bull Racing' },
-  { id: 'had', name: 'Isack Hadjar', code: 'HAD', flag: '🇫🇷', team: 'Red Bull Racing' },
-  { id: 'lec', name: 'Charles Leclerc', code: 'LEC', flag: '🇲🇨', team: 'Ferrari' },
-  { id: 'ham', name: 'Lewis Hamilton', code: 'HAM', flag: '🇬🇧', team: 'Ferrari' },
-  { id: 'nor', name: 'Lando Norris', code: 'NOR', flag: '🇬🇧', team: 'McLaren' },
-  { id: 'pia', name: 'Oscar Piastri', code: 'PIA', flag: '🇦🇺', team: 'McLaren' },
-  { id: 'rus', name: 'George Russell', code: 'RUS', flag: '🇬🇧', team: 'Mercedes' },
-  { id: 'kim', name: 'Kimi Antonelli', code: 'ANT', flag: '🇮🇹', team: 'Mercedes' },
-  { id: 'alo', name: 'Fernando Alonso', code: 'ALO', flag: '🇪🇸', team: 'Aston Martin' },
-  { id: 'str', name: 'Lance Stroll', code: 'STR', flag: '🇨🇦', team: 'Aston Martin' },
-  { id: 'gas', name: 'Pierre Gasly', code: 'GAS', flag: '🇫🇷', team: 'Alpine' },
-  { id: 'pin', name: 'Franco Colapinto', code: 'COL', flag: '🇦🇷', team: 'Alpine' },
-  { id: 'tsu', name: 'Yuki Tsunoda', code: 'TSU', flag: '🇯🇵', team: 'RB' },
-  { id: 'lin', name: 'Arvid Lindblad', code: 'LIN', flag: '🇸🇪', team: 'RB' },
-  { id: 'hul', name: 'Nico Hülkenberg', code: 'HUL', flag: '🇩🇪', team: 'Audi' },
-  { id: 'gab', name: 'Gabriel Bortoleto', code: 'BOR', flag: '🇧🇷', team: 'Audi' },
-  { id: 'oli', name: 'Ollie Bearman', code: 'BEA', flag: '🇬🇧', team: 'Haas' },
-  { id: 'oco', name: 'Esteban Ocon', code: 'OCO', flag: '🇫🇷', team: 'Haas' },
-  { id: 'sai', name: 'Carlos Sainz', code: 'SAI', flag: '🇪🇸', team: 'Williams' },
-  { id: 'alb', name: 'Alexander Albon', code: 'ALB', flag: '🇹🇭', team: 'Williams' },
-  { id: 'bot', name: 'Valtteri Bottas', code: 'BOT', flag: '🇫🇮', team: 'Cadillac' },
-  { id: 'per', name: 'Sergio Pérez', code: 'PER', flag: '🇲🇽', team: 'Cadillac' }
+const fs = require('fs');
+const path = require('path');
+
+const TEAM_ORDER = [
+  'McLaren',
+  'Ferrari',
+  'Red Bull Racing',
+  'Mercedes',
+  'Aston Martin',
+  'Alpine',
+  'Haas',
+  'Racing Bulls',
+  'Williams',
+  'Audi',
+  'Cadillac'
 ];
 
-const SEED_RACES = [
-  { id: 0, name: 'Australian GP', flag: '🇦🇺', date: '2026-03-08', circuit: 'Albert Park' },
-  { id: 1, name: 'Chinese GP', flag: '🇨🇳', date: '2026-03-22', circuit: 'Shanghai' },
-  { id: 2, name: 'Japanese GP', flag: '🇯🇵', date: '2026-04-05', circuit: 'Suzuka' },
-  { id: 3, name: 'Bahrain GP', flag: '🇧🇭', date: '2026-04-19', circuit: 'Sakhir' },
-  { id: 4, name: 'Saudi Arabian GP', flag: '🇸🇦', date: '2026-05-03', circuit: 'Jeddah' },
-  { id: 5, name: 'Miami GP', flag: '🇺🇸', date: '2026-05-17', circuit: 'Miami' },
-  { id: 6, name: 'Monaco GP', flag: '🇲🇨', date: '2026-05-31', circuit: 'Monte Carlo' },
-  { id: 7, name: 'Spanish GP', flag: '🇪🇸', date: '2026-06-14', circuit: 'Barcelona' },
-  { id: 8, name: 'Canadian GP', flag: '🇨🇦', date: '2026-06-28', circuit: 'Montreal' },
-  { id: 9, name: 'Austrian GP', flag: '🇦🇹', date: '2026-07-12', circuit: 'Spielberg' },
-  { id: 10, name: 'British GP', flag: '🇬🇧', date: '2026-07-26', circuit: 'Silverstone' },
-  { id: 11, name: 'Belgian GP', flag: '🇧🇪', date: '2026-08-09', circuit: 'Spa' },
-  { id: 12, name: 'Hungarian GP', flag: '🇭🇺', date: '2026-08-23', circuit: 'Hungaroring' },
-  { id: 13, name: 'Dutch GP', flag: '🇳🇱', date: '2026-09-06', circuit: 'Zandvoort' },
-  { id: 14, name: 'Italian GP', flag: '🇮🇹', date: '2026-09-13', circuit: 'Monza' },
-  { id: 15, name: 'Azerbaijan GP', flag: '🇦🇿', date: '2026-09-27', circuit: 'Baku' },
-  { id: 16, name: 'Singapore GP', flag: '🇸🇬', date: '2026-10-11', circuit: 'Marina Bay' },
-  { id: 17, name: 'United States GP', flag: '🇺🇸', date: '2026-10-25', circuit: 'COTA' },
-  { id: 18, name: 'Mexican GP', flag: '🇲🇽', date: '2026-11-01', circuit: 'Mexico City' },
-  { id: 19, name: 'Brazilian GP', flag: '🇧🇷', date: '2026-11-15', circuit: 'Interlagos' },
-  { id: 20, name: 'Las Vegas GP', flag: '🇺🇸', date: '2026-11-22', circuit: 'Las Vegas' },
-  { id: 21, name: 'Qatar GP', flag: '🇶🇦', date: '2026-12-06', circuit: 'Lusail' },
-  { id: 22, name: 'Abu Dhabi GP', flag: '🇦🇪', date: '2026-12-13', circuit: 'Yas Marina' }
-];
+function parseCsv(content) {
+  const rows = [];
+  let row = [];
+  let field = '';
+  let quoted = false;
 
-module.exports = { SEED_DRIVERS, SEED_RACES };
+  for (let index = 0; index < content.length; index++) {
+    const character = content[index];
+    if (quoted) {
+      if (character === '"' && content[index + 1] === '"') {
+        field += '"';
+        index++;
+      } else if (character === '"') {
+        quoted = false;
+      } else {
+        field += character;
+      }
+    } else if (character === '"') {
+      quoted = true;
+    } else if (character === ',') {
+      row.push(field);
+      field = '';
+    } else if (character === '\n' || character === '\r') {
+      if (character === '\r' && content[index + 1] === '\n') index++;
+      row.push(field);
+      if (row.some((value) => value !== '')) rows.push(row);
+      row = [];
+      field = '';
+    } else {
+      field += character;
+    }
+  }
+
+  row.push(field);
+  if (row.some((value) => value !== '')) rows.push(row);
+  return rows;
+}
+
+function readDataset(filename) {
+  const filePath = path.join(__dirname, '../../datasets', filename);
+  const [headers, ...records] = parseCsv(fs.readFileSync(filePath, 'utf8'));
+  return records.map((record) => Object.fromEntries(
+    headers.map((header, index) => [header.replace(/^\uFEFF/, ''), record[index] || ''])
+  ));
+}
+
+const SEED_DRIVERS = readDataset('drivers.csv').map((driver) => ({
+  ...driver,
+  number: Number(driver.number),
+  titles: Number(driver.titles),
+  rookie: driver.rookie === 'true',
+  seasonPosition: Number(driver.seasonPosition),
+  seasonPoints: Number(driver.seasonPoints)
+}));
+const SEED_RACES = readDataset('races.csv').map((race) => ({
+  ...race,
+  id: Number(race.id)
+}));
+const TEAM_COLORS = Object.fromEntries(SEED_DRIVERS.map(({ team, teamColor }) => [team, teamColor]));
+
+function sortDrivers(drivers) {
+  return [...drivers].sort((a, b) => {
+    const teamDiff = TEAM_ORDER.indexOf(a.team) - TEAM_ORDER.indexOf(b.team);
+    if (teamDiff !== 0) return teamDiff;
+    return a.number - b.number;
+  });
+}
+
+module.exports = { SEED_DRIVERS, SEED_RACES, TEAM_ORDER, TEAM_COLORS, sortDrivers };

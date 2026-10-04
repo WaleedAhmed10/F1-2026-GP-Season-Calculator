@@ -22,8 +22,10 @@ function calculateDriverStandings(drivers, raceResults) {
       driverId: d.id,
       name: d.name,
       code: d.code,
+      number: d.number,
       flag: d.flag,
       team: d.team,
+      teamColor: d.teamColor,
       points: 0,
       wins: 0,
       podiums: 0,
@@ -66,7 +68,7 @@ function calculateConstructorStandings(drivers, raceResults) {
 
   driverStandings.forEach((d) => {
     if (!teamMap.has(d.team)) {
-      teamMap.set(d.team, { team: d.team, points: 0, wins: 0, podiums: 0 });
+      teamMap.set(d.team, { team: d.team, teamColor: d.teamColor, points: 0, wins: 0, podiums: 0 });
     }
     const team = teamMap.get(d.team);
     team.points += d.points;

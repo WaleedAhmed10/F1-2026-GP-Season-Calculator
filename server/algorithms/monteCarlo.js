@@ -36,7 +36,9 @@ function simulateChampionship(drivers, raceResults, remainingRaceIds, iterations
         driverId: id,
         name: driver?.name,
         code: driver?.code,
+        number: driver?.number,
         team: driver?.team,
+        teamColor: driver?.teamColor,
         probability: Math.round((titleCounts[id] / iterations) * 1000) / 10
       };
     })

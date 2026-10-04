@@ -41,11 +41,21 @@ export default function PredictionPanel({
           <div
             key={d.id}
             className={`driver-option ${selectedDriver === d.id ? 'selected' : ''} ${isLocked ? 'disabled' : ''}`}
+            style={{ '--team-color': d.teamColor || '#334155' }}
             onClick={() => !isLocked && onDriverSelect(d.id)}
           >
             <input type="radio" name="driverPick" checked={selectedDriver === d.id} readOnly />
+            <span className="team-dot" aria-hidden="true" />
+            <span className="driver-number">{d.number}</span>
             <span className="driver-flag">{d.flag}</span>
-            <span className="driver-name">{d.name}</span>
+            <span className="driver-meta">
+              <span className="driver-name">
+                {d.name}
+                {d.titles > 0 ? ` · ${d.titles}× WDC` : ''}
+                {d.rookie ? ' · R' : ''}
+              </span>
+              <span className="driver-nat">P{d.seasonPosition} · {d.seasonPoints} pts</span>
+            </span>
             <span className="driver-team">{d.team}</span>
           </div>
         ))}
