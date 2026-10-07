@@ -9,6 +9,7 @@ import StandingsPanel from './components/StandingsPanel';
 import SimulationPanel from './components/SimulationPanel';
 import MyPredictions from './components/MyPredictions';
 import { FALLBACK_DRIVERS } from './data/drivers';
+import { FALLBACK_RACES } from './data/races';
 
 const TABS = ['predict', 'standings', 'simulation'];
 
@@ -32,31 +33,49 @@ export default function App() {
   const { toasts, showToast, removeToast } = useToast();
 
   const loadPublicData = useCallback(async () => {
-    try {
-      const [driversData, racesData, lbData, dsData, csData, simData] = await Promise.all([
-        api.getDrivers(),
-        api.getRaces(),
-        api.getLeaderboard(),
-        api.getDriverStandings(),
-        api.getConstructorStandings(),
-        api.getChampionshipSimulation()
-      ]);
-      setDrivers(driversData.length ? driversData : FALLBACK_DRIVERS);
-      setRaces(racesData);
-      setLeaderboard(lbData);
-      setDriverStandings(dsData);
-      setConstructorStandings(csData);
-      setSimulation(simData);
-      const firstOpen = racesData.find((r) => r.status === 'upcoming');
-      setSelectedDriver((current) => current || driversData[0]?.id || '');
-      setSelectedRace((current) => (
-        racesData.some((race) => race.id === current)
-          ? current
-          : firstOpen?.id ?? racesData[0]?.id ?? null
-      ));
-    } catch {
-      setDrivers(FALLBACK_DRIVERS);
-      showToast('Failed to load data', 'error');
+    const results = await Promise.allSettled([
+      api.getDrivers(),
+      api.getRaces(),
+      api.getLeaderboard(),
+      api.getDriverStandings(),
+      api.getConstructorStandings(),
+      api.getChampionshipSimulation()
+    ]);
+    const [driversResult, racesResult, leaderboardResult, driverStandingsResult, constructorStandingsResult, simulationResult] = results;
+    const driversData = driversResult.status === 'fulfilled' && driversResult.value.length
+      ? driversResult.value
+      : FALLBACK_DRIVERS;
+    const useFallbackRaces = racesResult.status === 'rejected' || !racesResult.value?.length;
+    const racesData = useFallbackRaces
+      ? FALLBACK_RACES.map((race) => ({
+        ...race,
+        status: new Date(`${race.date}T00:00:00`) < new Date(new Date().setHours(0, 0, 0, 0))
+          ? 'locked'
+          : 'upcoming'
+      }))
+      : racesResult.value;
+
+    setDrivers(driversData);
+    setRaces(racesData);
+    setLeaderboard(leaderboardResult.status === 'fulfilled' ? leaderboardResult.value : []);
+    setDriverStandings(driverStandingsResult.status === 'fulfilled' ? driverStandingsResult.value : []);
+    setConstructorStandings(constructorStandingsResult.status === 'fulfilled' ? constructorStandingsResult.value : []);
+    setSimulation(simulationResult.status === 'fulfilled' ? simulationResult.value : null);
+    const firstOpen = racesData.find((race) => race.status === 'upcoming');
+    setSelectedDriver((current) => current || driversData[0]?.id || '');
+    setSelectedRace((current) => (
+      racesData.some((race) => race.id === current)
+        ? current
+        : firstOpen?.id ?? racesData[0]?.id ?? null
+    ));
+
+    const failedResources = results
+      .map((result, index) => result.status === 'rejected'
+        ? ['drivers', 'races', 'leaderboard', 'driver standings', 'constructor standings', 'simulation'][index]
+        : null)
+      .filter(Boolean);
+    if (failedResources.length) {
+      showToast(`Failed to load ${failedResources.join(', ')}${useFallbackRaces ? '; showing the season schedule instead' : ''}`, 'error');
     }
   }, [showToast]);
 
